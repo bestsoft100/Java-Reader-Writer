@@ -1,12 +1,13 @@
-package b100.json;
+package b100.rw;
 
-public class JsonException extends RuntimeException{
+public class UnexpectedCharacterException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
+	public static int printRange = 6;
 	
-	private JsonReader reader;
+	private Reader reader;
 	
-	public JsonException(JsonReader reader) {
+	public UnexpectedCharacterException(Reader reader) {
 		this.reader = reader;
 	}
 	
@@ -15,7 +16,12 @@ public class JsonException extends RuntimeException{
 		
 		String string = "Unexpected Character '"+reader.get()+"' at line "+reader.getLine()+" column "+reader.getColumn()+"\n";
 		
-		for(int i=0; i < lines.length; i++) {
+		int startLine = reader.getLine() - printRange;
+		if(startLine < 0) startLine = 0;
+		int endLine = reader.getLine() + printRange;
+		if(endLine > lines.length) endLine = lines.length;
+		
+		for(int i=startLine; i < endLine; i++) {
 			string += lines[i] + "\n";
 			if(i == reader.getLine()) {
 				for(int j=0; j < reader.getColumn(); j++) {

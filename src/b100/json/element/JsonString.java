@@ -1,7 +1,7 @@
 package b100.json.element;
 
-import b100.json.JsonReader;
-import b100.json.JsonWriter;
+import b100.rw.Writer;
+import b100.rw.Reader;
 
 public class JsonString implements JsonElement{
 	
@@ -19,8 +19,10 @@ public class JsonString implements JsonElement{
 		return value;
 	}
 	
-	public static JsonString read(JsonReader reader) {
+	public static JsonString read(Reader reader) {
 		String string = "";
+		
+		reader.expect('"');
 		
 		while(true) {
 			reader.skip();
@@ -34,7 +36,7 @@ public class JsonString implements JsonElement{
 		}
 	}
 
-	public void write(JsonWriter writer) {
+	public void write(Writer writer) {
 		writer.write("\"" + value + "\"");
 	}
 	

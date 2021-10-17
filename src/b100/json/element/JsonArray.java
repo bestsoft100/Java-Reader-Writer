@@ -1,8 +1,11 @@
 package b100.json.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import b100.json.JsonWriter;
+import b100.rw.Writer;
+import b100.rw.Reader;
+import b100.rw.UnexpectedCharacterException;
 
 public class JsonArray implements JsonElement{
 	
@@ -60,8 +63,44 @@ public class JsonArray implements JsonElement{
 		
 	}
 
-	public void write(JsonWriter writer) {
-		writer.writeln(toString());
+	public void write(Writer writer) {
+		//writer.writeln(toString());
+		writer.writeln("[");
+		writer.add();
+		
+		for(int i=0; i < data.length; i++) {
+			JsonElement element = data[i];
+			
+			element.write(writer);
+			
+			if(i < data.length - 1) {
+				writer.writeln(",");
+			}else {
+				writer.writeln();
+			}
+		}
+
+		writer.dec();
+		writer.write("]");
+	}
+	
+	public static JsonArray read(Reader reader) {
+		reader.skip();
+		reader.skipWhitespace();
+		List<JsonElement> elements = new ArrayList<>();
+		
+		while(true) {
+			elements.add(JsonElement.read(reader));
+			reader.skipWhitespace();
+			if(reader.get() == ',') {
+				continue;
+			}else if(reader.get() == ']') {
+				reader.skip();
+				return new JsonArray(elements);
+			}else {
+				throw new UnexpectedCharacterException(reader);
+			}
+		}
 	}
 	
 }

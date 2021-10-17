@@ -1,21 +1,21 @@
-package b100.json;
+package b100.rw;
 
 import b100.json.element.JsonObject;
 
-public class JsonWriter {
+public class Writer {
 	
-	public static String tabs = "    ";
+	public static String tabs = "\t";
 	
 	private String content;
 	private int column;
 	private Character last;
 	
-	public JsonWriter() {
+	public Writer() {
 		content = "";
 		column = 0;
 	}
 	
-	public JsonWriter(JsonObject object) {
+	public Writer(JsonObject object) {
 		this();
 		object.write(this);
 	}
@@ -37,6 +37,10 @@ public class JsonWriter {
 	
 	public void writeln(String string) {
 		write(string + "\n");
+	}
+	
+	public void writeln() {
+		writeln("");
 	}
 	
 	public void add() {

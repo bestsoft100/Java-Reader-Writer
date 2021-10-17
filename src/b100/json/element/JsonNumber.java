@@ -1,13 +1,17 @@
 package b100.json.element;
 
-import b100.json.JsonReader;
-import b100.json.JsonWriter;
+import b100.rw.Writer;
+import b100.rw.Reader;
 
 public class JsonNumber implements JsonElement{
 	
 	private String numString;
 	
 	public JsonNumber(int i) {
+		this.numString = "" + i;
+	}
+	
+	public JsonNumber(long i) {
 		this.numString = "" + i;
 	}
 	
@@ -39,7 +43,7 @@ public class JsonNumber implements JsonElement{
 		return Short.parseShort(numString);
 	}
 	
-	public static JsonNumber read(JsonReader reader) {
+	public static JsonNumber read(Reader reader) {
 		String numString = "";
 		
 		while(true) {
@@ -61,7 +65,7 @@ public class JsonNumber implements JsonElement{
 		return "" + numString;
 	}
 
-	public void write(JsonWriter writer) {
+	public void write(Writer writer) {
 		writer.write(numString);
 	}
 	
