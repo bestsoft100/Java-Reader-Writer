@@ -1,20 +1,22 @@
 package b100.json.element;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import b100.rw.Writer;
+import b100.json.JsonWriter;
 import b100.rw.Reader;
 import b100.rw.UnexpectedCharacterException;
+import b100.rw.Writer;
 
-public class JsonObject implements JsonElement{
+public class JsonObject implements JsonElement, Iterable<JsonObjectEntry>{
 	
 	private List<JsonObjectEntry> data = new ArrayList<>();
 	private boolean compact = false;
 	
 	public JsonObjectEntry getEntry(String id) {
 		for(JsonObjectEntry entry : data) {
-			if(entry.id.equals(id)) {
+			if(entry.name().equals(id)) {
 				return entry;
 			}
 		}
@@ -24,7 +26,7 @@ public class JsonObject implements JsonElement{
 	public JsonObject set(String id, JsonElement element) {
 		JsonObjectEntry entry = getEntry(id);
 		if(entry != null) {
-			entry.value = element;
+			entry.setValue(element);
 		}else {
 			data.add(new JsonObjectEntry(id, element));
 		}
@@ -43,17 +45,33 @@ public class JsonObject implements JsonElement{
 		return this.set(id, new JsonNumber(val));
 	}
 	
+	public JsonObject set(String id, float val) {
+		return this.set(id, new JsonNumber(val));
+	}
+	
+	public JsonObject set(String id, double val) {
+		return this.set(id, new JsonNumber(val));
+	}
+	
+	public JsonObject set(String id, boolean val) {
+		return this.set(id, new JsonBoolean(val));
+	}
+	
 	public JsonElement get(String id) {
 		JsonObjectEntry entry = getEntry(id);
 		
 		if(entry != null)
-			return entry.value;
+			return entry.value();
 		
 		throw new NullPointerException("Missing Property: "+id);
 	}
+	
+	public JsonObject getObject(String id) {
+		return get(id).getAsObject();
+	}
 
 	public String getString(String string) {
-		return get(string).getAsString().getValue();
+		return get(string).getAsString().value();
 	}
 
 	public JsonArray getArray(String string) {
@@ -77,7 +95,7 @@ public class JsonObject implements JsonElement{
 	}
 	
 	public String toString() {
-		return new Writer(this).toString();
+		return new JsonWriter(this).toString();
 	}
 	
 	public void setCompact(boolean compact) {
@@ -86,6 +104,10 @@ public class JsonObject implements JsonElement{
 	
 	public boolean isCompact() {
 		return compact;
+	}
+	
+	public int size() {
+		return data.size();
 	}
 	
 	public void write(Writer writer) {
@@ -101,8 +123,8 @@ public class JsonObject implements JsonElement{
 			for(int i=0; i < data.size(); i++) {
 				JsonObjectEntry e = data.get(i);
 				
-				writer.write("\"" + e.id + "\": ");
-				e.value.write(writer);
+				writer.write("\"" + e.name() + "\": ");
+				e.value().write(writer);
 				
 				if(i < data.size() - 1) {
 					writer.writeln(",");
@@ -119,8 +141,8 @@ public class JsonObject implements JsonElement{
 			for(int i=0; i < data.size(); i++) {
 				JsonObjectEntry e = data.get(i);
 				
-				writer.write("\"" + e.id + "\": ");
-				e.value.write(writer);
+				writer.write("\"" + e.name() + "\": ");
+				e.value().write(writer);
 
 				if(i < data.size() - 1) {
 					writer.write(", ");
@@ -169,6 +191,30 @@ public class JsonObject implements JsonElement{
 				throw new UnexpectedCharacterException(reader);
 			}
 		}
+	}
+
+	public Iterator<JsonObjectEntry> iterator() {
+		return new JsonObjectEntryIterator(this);
+	}
+	
+	public static class JsonObjectEntryIterator implements Iterator<JsonObjectEntry>{
+
+		private JsonObject object;
+		private int pos;
+		
+		public JsonObjectEntryIterator(JsonObject object) {
+			this.object = object;
+			this.pos = 0;
+		}
+		
+		public boolean hasNext() {
+			return pos < object.size();
+		}
+
+		public JsonObjectEntry next() {
+			return object.data.get(pos++);
+		}
+		
 	}
 	
 }

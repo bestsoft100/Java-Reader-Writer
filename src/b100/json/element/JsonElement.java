@@ -22,6 +22,30 @@ public interface JsonElement {
 		return (JsonString) this;
 	}
 	
+	public default JsonBoolean getAsBoolean() {
+		return (JsonBoolean) this;
+	}
+	
+	public default boolean isObject() {
+		return this instanceof JsonObject;
+	}
+	
+	public default boolean isArray() {
+		return this instanceof JsonArray;
+	}
+	
+	public default boolean isNumber() {
+		return this instanceof JsonNumber;
+	}
+	
+	public default boolean isString() {
+		return this instanceof JsonString;
+	}
+	
+	public default boolean isBoolean() {
+		return this instanceof JsonBoolean;
+	}
+	
 	public void write(Writer writer);
 
 	public static JsonElement read(Reader reader) {

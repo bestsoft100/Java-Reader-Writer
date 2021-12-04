@@ -10,10 +10,9 @@ public abstract class Parser<E> {
 	public abstract E parse(String string);
 	
 	public E parse(InputStream inputStream) {
+		if(inputStream == null) return null;
 		String content = StringUtils.readInputStream(inputStream);
-		
 		if(content.length() == 0) return null;
-		
 		return parse(content);
 	}
 	

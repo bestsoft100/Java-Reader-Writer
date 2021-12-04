@@ -15,6 +15,14 @@ public class JsonNumber implements JsonElement{
 		this.numString = "" + i;
 	}
 	
+	public JsonNumber(float i) {
+		this.numString = "" + i;
+	}
+	
+	public JsonNumber(double i) {
+		this.numString = "" + i;
+	}
+	
 	private JsonNumber(String numString) {
 		this.numString = numString;
 	}
@@ -49,7 +57,7 @@ public class JsonNumber implements JsonElement{
 		while(true) {
 			char c = reader.get();
 			
-			if(c == ',' || c == ']' || c == '}') {
+			if(c == ',' || c == ']' || c == '}' || c == ' ' || c == '\n' || c == '\t') {
 				break;
 			}else {
 				numString += c;

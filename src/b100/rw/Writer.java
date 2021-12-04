@@ -1,6 +1,8 @@
 package b100.rw;
 
-import b100.json.element.JsonObject;
+import java.io.File;
+
+import b100.utils.StringUtils;
 
 public class Writer {
 	
@@ -13,11 +15,6 @@ public class Writer {
 	public Writer() {
 		content = "";
 		column = 0;
-	}
-	
-	public Writer(JsonObject object) {
-		this();
-		object.write(this);
 	}
 	
 	public void write(String string) {
@@ -56,6 +53,14 @@ public class Writer {
 	
 	public String toString() {
 		return content;
+	}
+	
+	public void saveToFile(File file) {
+		StringUtils.saveToFile(file, content);
+	}
+	
+	public void saveToFile(String path) {
+		saveToFile(new File(path));
 	}
 	
 }

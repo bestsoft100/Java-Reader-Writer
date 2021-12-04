@@ -1,13 +1,15 @@
 package b100.json.element;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import b100.rw.Writer;
 import b100.rw.Reader;
 import b100.rw.UnexpectedCharacterException;
+import b100.rw.Writer;
+import b100.utils.ArrayIterator;
 
-public class JsonArray implements JsonElement{
+public class JsonArray implements JsonElement, Iterable<JsonElement>{
 	
 	private JsonElement[] data;
 	
@@ -37,7 +39,7 @@ public class JsonArray implements JsonElement{
 		data[i] = element;
 	}
 	
-	public int getLength() {
+	public int length() {
 		return data.length;
 	}
 	
@@ -87,12 +89,21 @@ public class JsonArray implements JsonElement{
 	public static JsonArray read(Reader reader) {
 		reader.skip();
 		reader.skipWhitespace();
+		
+		if(reader.get() == ']') {
+			reader.skip();
+			reader.skipWhitespace();
+			return new JsonArray(0);
+		}
+		
 		List<JsonElement> elements = new ArrayList<>();
 		
 		while(true) {
 			elements.add(JsonElement.read(reader));
 			reader.skipWhitespace();
 			if(reader.get() == ',') {
+				reader.skip();
+				reader.skipWhitespace();
 				continue;
 			}else if(reader.get() == ']') {
 				reader.skip();
@@ -101,6 +112,10 @@ public class JsonArray implements JsonElement{
 				throw new UnexpectedCharacterException(reader);
 			}
 		}
+	}
+
+	public Iterator<JsonElement> iterator() {
+		return new ArrayIterator<>(data);
 	}
 	
 }
