@@ -17,7 +17,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 		this.data = new JsonElement[length];
 	}
 	
-	public JsonArray(List<JsonElement> elements) {
+	public JsonArray(List<? extends JsonElement> elements) {
 		this.data = new JsonElement[elements.size()];
 		for(int i=0; i < data.length; i++) {
 			data[i] = elements.get(i);

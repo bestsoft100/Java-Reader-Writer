@@ -23,6 +23,17 @@ public class Reader {
 	public char get() {
 		return lines[line].charAt(column);
 	}
+
+	public String get(int av) {
+		String string = "";
+		
+		for(int i=0; i < av; i++) {
+			string += get();
+			skip();
+		}
+		
+		return string;
+	}
 	
 	public char getSkip() {
 		char c = get();
@@ -35,6 +46,12 @@ public class Reader {
 		if(column >= lines[line].length()) {
 			column = 0;
 			line++;
+		}
+	}
+
+	public void skip(int length) {
+		for(int i=0; i < length; i++) {
+			skip();
 		}
 	}
 	

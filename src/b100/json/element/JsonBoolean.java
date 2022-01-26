@@ -13,10 +13,10 @@ public class JsonBoolean implements JsonPrimitive{
 	}
 
 	public void write(Writer writer) {
-		writer.write("" + getValue());
+		writer.write("" + value());
 	}
 	
-	public boolean getValue() {
+	public boolean value() {
 		return value;
 	}
 	

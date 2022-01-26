@@ -18,18 +18,24 @@ public class Writer {
 	}
 	
 	public void write(String string) {
-		char[] ca = string.toCharArray();
-		
+		write(string.toCharArray());
+	}
+
+	public void write(char[] ca){
 		for(char c : ca) {
-			if(last != null && last == '\n') {
-				for(int i=0; i < column; i++) {
-					content += tabs;
-				}
-			}
-			
-			content += c;
-			last = c;
+			write(c);
 		}
+	}
+	
+	public void write(char c) {
+		if(last != null && last == '\n') {
+			for(int i=0; i < column; i++) {
+				content += tabs;
+			}
+		}
+		
+		content += c;
+		last = c;
 	}
 	
 	public void writeln(String string) {

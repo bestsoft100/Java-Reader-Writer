@@ -69,6 +69,30 @@ public class JsonObject implements JsonElement, Iterable<JsonObjectEntry>{
 	public JsonObject getObject(String id) {
 		return get(id).getAsObject();
 	}
+	
+	public JsonNumber getNumber(String id) {
+		return get(id).getAsNumber();
+	}
+	
+	public int getInt(String id) {
+		return getNumber(id).getInt();
+	}
+	
+	public double getDouble(String id) {
+		return getNumber(id).getDouble();
+	}
+	
+	public long getLong(String id) {
+		return getNumber(id).getLong();
+	}
+	
+	public float getFloat(String id) {
+		return getNumber(id).getFloat();
+	}
+
+	public boolean getBoolean(String id) {
+		return get(id).getAsBoolean().value();
+	}
 
 	public String getString(String string) {
 		return get(string).getAsString().value();
