@@ -9,9 +9,9 @@ public class XmlStringTag extends XmlTag<String>{
 	}
 
 	public Writer write(Writer writer) {
-		writer.write("<"+id);
+		writer.write("<"+name);
 		attributes.write(writer);
-		writer.write(">"+(content!=null?content:"")+"</"+id+">");
+		writer.write(">"+(content!=null?content:"")+"</"+name+">");
 		return writer;
 	}
 

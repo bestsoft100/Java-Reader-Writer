@@ -12,7 +12,7 @@ public class XmlContentTag extends XmlTag<List<XmlTag<?>>>{
 	}
 
 	public Writer write(Writer writer) {
-		writer.write("<"+id);
+		writer.write("<"+name);
 		attributes.write(writer);
 		writer.write(">");
 		
@@ -26,7 +26,7 @@ public class XmlContentTag extends XmlTag<List<XmlTag<?>>>{
 		}
 		
 		writer.dec();
-		writer.write("</"+id+">");
+		writer.write("</"+name+">");
 		
 		return writer;
 	}
@@ -37,7 +37,7 @@ public class XmlContentTag extends XmlTag<List<XmlTag<?>>>{
 	
 	public XmlTag<?> get(String id){
 		for(XmlTag<?> tag : content) {
-			if(tag.id.equals(id)) {
+			if(tag.name.equals(id)) {
 				return tag;
 			}
 		}

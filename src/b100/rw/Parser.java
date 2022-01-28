@@ -12,19 +12,19 @@ public abstract class Parser<E> {
 	
 	public E parse(InputStream inputStream) {
 		if(inputStream == null) return null;
-		String content = StringUtils.readInputStream(inputStream);
+		String content = StringUtils.readInputString(inputStream);
 		if(content.length() == 0) return null;
 		return parse(content);
 	}
 	
 	public E parseFile(File file) {
-		String content = StringUtils.loadFromFile(file);
+		String content = StringUtils.getFileContentAsString(file);
 		
 		return parse(content);
 	}
 	
 	public E parseFile(String path) {
-		StringUtils.validateNotEmpty(path);
+		StringUtils.validateStringNotEmpty(path);
 		
 		return parseFile(new File(path));
 	}

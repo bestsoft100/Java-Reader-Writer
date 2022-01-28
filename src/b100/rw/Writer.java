@@ -62,7 +62,7 @@ public class Writer {
 	}
 	
 	public void saveToFile(File file) {
-		StringUtils.saveToFile(file, content);
+		StringUtils.saveStringToFile(file, content);
 	}
 	
 	public void saveToFile(String path) {

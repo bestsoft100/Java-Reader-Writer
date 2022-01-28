@@ -6,7 +6,7 @@ import b100.rw.Writer;
 
 public abstract class XmlTag<E> {
 	
-	protected String id;
+	protected String name;
 	protected XmlAttributeList attributes;
 	protected E content;
 	
@@ -16,13 +16,13 @@ public abstract class XmlTag<E> {
 		if(id.length() == 0)
 			throw new RuntimeException("Empty String");
 		
-		this.id = id;
+		this.name = id;
 		this.content = content;
 	}
 
 	public abstract Writer write(Writer writer);
 	
-	public E getContent() {
+	public E content() {
 		return content;
 	}
 	
@@ -38,12 +38,12 @@ public abstract class XmlTag<E> {
 		this.attributes = attributes;
 	}
 	
-	public String getId() {
-		return id;
+	public String name() {
+		return name;
 	}
 	
-	public void setId(String id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public static XmlTag<?> read(Reader reader) {
