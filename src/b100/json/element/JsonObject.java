@@ -79,23 +79,28 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 	}
 
 	public JsonObject getObject(String id) {
-		return get(id).getAsObject();
+		JsonElement element = get(id);
+		return element != null ? element.getAsObject() : null;
 	}
 
 	public JsonArray getArray(String id) {
-		return get(id).getAsArray();
+		JsonElement element = get(id);
+		return element != null ? element.getAsArray() : null;
 	}
 
 	public JsonNumber getNumber(String id) {
-		return get(id).getAsNumber();
+		JsonElement element = get(id);
+		return element != null ? element.getAsNumber() : null;
 	}
 
 	public JsonString getString(String id) {
-		return get(id).getAsString();
+		JsonElement element = get(id);
+		return element != null ? element.getAsString() : null;
 	}
 
 	public JsonBoolean getBoolean(String id) {
-		return get(id).getAsBoolean();
+		JsonElement element = get(id);
+		return element != null ? element.getAsBoolean() : null;
 	}
 
 	public int getInt(String id) {
@@ -120,6 +125,18 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 
 	public short getShort(String id) {
 		return getNumber(id).getShort();
+	}
+	
+	public int getInt(String id, int defaultValue) {
+		JsonEntry entry = getOrCreateEntry(id);
+		if(entry.value != null && entry.value instanceof JsonNumber) {
+			JsonNumber jsonNumber = (JsonNumber) entry.value;
+			
+			return jsonNumber.getInteger();
+		}else {
+			entry.value = new JsonNumber(defaultValue);
+			return defaultValue;
+		}
 	}
 	
 	public JsonElement get(String id) {
