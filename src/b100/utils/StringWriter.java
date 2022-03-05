@@ -2,12 +2,12 @@ package b100.utils;
 
 public class StringWriter {
 	
-	private String string = null;
+	private StringBuilder string = new StringBuilder();
 	private int tabs = 0;
 	private String tabString = "\t";
 	
 	public StringWriter() {
-		string = "";
+		
 	}
 	
 	public StringWriter write(Writable writable) {
@@ -32,10 +32,10 @@ public class StringWriter {
 	public void write(char c) {
 		if(isLastCharLineBreak()) {
 			for(int i=0; i < tabs; i++) {
-				string += tabString;
+				string.append(tabString);
 			}
 		}
-		string += c;
+		string.append(c);
 	}
 	
 	public boolean isLastCharLineBreak() {
@@ -52,7 +52,7 @@ public class StringWriter {
 	}
 	
 	public String toString() {
-		return string;
+		return string.toString();
 	}
 	
 	public String getTabString() {
