@@ -12,6 +12,8 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 	
 	private List<JsonEntry> entries;
 	
+	private boolean compact = false;
+	
 	public JsonObject() {
 		entries = new ArrayList<>();
 	}
@@ -63,7 +65,8 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 		
 		int i=0;
 		for(JsonEntry entry : entries) {
-			writer.write('\n');
+			if(!isCompact()) writer.write('\n');
+			else writer.write(' ');
 			new JsonString(entry.name).write(writer);
 			writer.write(": ");
 			entry.value.write(writer);
@@ -72,7 +75,12 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 		}
 		
 		if(i > 0) {
-			writer.write('\n');
+			if(!isCompact()) {
+				writer.write('\n');
+			}else{
+				writer.write(' ');
+			}
+			
 		}
 		writer.removeTab();
 		writer.write("}");
@@ -214,11 +222,11 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 	}
 
 	public void setCompact(boolean b) {
-		
+		compact = true;
 	}
 	
 	public boolean isCompact() {
-		return false;
+		return compact;
 	}
 
 	public boolean has(String name, JsonElement element) {
