@@ -3,8 +3,6 @@ package b100.utils;
 import java.io.File;
 import java.io.InputStream;
 
-import b100.utils.StringUtils;
-
 public interface StringParser<E>{
 	
 	public E parseString(String string);
