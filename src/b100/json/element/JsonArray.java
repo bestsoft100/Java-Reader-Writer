@@ -14,6 +14,8 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 	
 	private JsonElement[] elements;
 	
+	private boolean compact = false;
+	
 	public JsonArray(int length) {
 		elements = new JsonElement[length];
 	}
@@ -65,18 +67,31 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 	}
 
 	public void write(StringWriter writer) {
-		writer.write("[");
+		if(isCompact()) {
+			writer.write("[ ");
+		}else {
+			writer.writeln("[");
+		}
+		
 		writer.addTab();
 
 		int i=0;
 		for(JsonElement element : elements) {
 			element.write(writer);
 			if(i < elements.length - 1) writer.write(", ");
+			if(!isCompact()) {
+				writer.write('\n');
+			}
 			i++;
 		}
 		
 		writer.removeTab();
-		writer.write("]");
+		if(isCompact()) {
+			writer.write(" ]");
+		}else {
+			writer.writeln("]");
+		}
+		
 	}
 
 	public Iterator<JsonElement> iterator() {
@@ -91,8 +106,23 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 		return elements[i];
 	}
 
-	public void set(int i, JsonElement element) {
+	public JsonArray set(int i, JsonElement element) {
 		elements[i] = element;
+		return this;
+	}
+
+	public JsonArray set(int i, Number number) {
+		elements[i] = new JsonNumber(number);
+		return this;
+	}
+	
+	public JsonArray setCompact(boolean compact) {
+		this.compact = compact;
+		return this;
+	}
+	
+	public boolean isCompact() {
+		return compact;
 	}
 	
 	public static interface Condition{

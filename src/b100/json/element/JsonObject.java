@@ -110,6 +110,15 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 		JsonElement element = get(id);
 		return element != null ? element.getAsBoolean() : null;
 	}
+	
+	public JsonObject getOrCreateObject(String id) {
+		JsonObject object = getObject(id);
+		if(object == null) {
+			object = new JsonObject();
+			set(id, object);
+		}
+		return object;
+	}
 
 	public int getInt(String id) {
 		return getNumber(id).getInteger();
@@ -138,12 +147,32 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 	public int getInt(String id, int defaultValue) {
 		JsonEntry entry = getOrCreateEntry(id);
 		if(entry.value != null && entry.value instanceof JsonNumber) {
-			JsonNumber jsonNumber = (JsonNumber) entry.value;
-			
+			JsonNumber jsonNumber = entry.value.getAsNumber();
 			return jsonNumber.getInteger();
 		}else {
 			entry.value = new JsonNumber(defaultValue);
 			return defaultValue;
+		}
+	}
+	
+	public float getFloat(String id, float defaultValue) {
+		JsonEntry entry = getOrCreateEntry(id);
+		if(entry.value != null && entry.value instanceof JsonNumber) {
+			JsonNumber jsonNumber = entry.value.getAsNumber();
+			return jsonNumber.getFloat();
+		}else {
+			entry.value = new JsonNumber(defaultValue);
+			return defaultValue;
+		}
+	}
+	
+	public JsonBoolean getBoolean(String id, boolean defaultValue) {
+		JsonEntry entry = getOrCreateEntry(id);
+		if(entry.value != null && entry.value instanceof JsonBoolean) {
+			return entry.value.getAsBoolean();
+		}else {
+			entry.value = new JsonBoolean(defaultValue);
+			return entry.value.getAsBoolean();
 		}
 	}
 	
@@ -238,11 +267,11 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 		}
 	}
 
-	public boolean has(String name, String stringtextures) {
+	public boolean has(String name, String string) {
 		JsonEntry entry = getEntry(name);
 		if(entry != null) {
 			if(entry.value.isString()) {
-				return entry.value.getAsString().value.equals(stringtextures);
+				return entry.value.getAsString().value.equals(string);
 			}
 		}
 		return false;

@@ -24,10 +24,10 @@ public class JsonNumber implements JsonElement{
 			else if((reader.get() >= 'a' && reader.get() <= 'z') || (reader.get() >= 'A' && reader.get() <= 'Z')) {
 				numberString += reader.get();
 			}
-			else if(reader.get() == '.') {
+			else if(reader.get() == '.' || reader.get() == '-') {
 				numberString += reader.get();
 			}
-			else if(reader.get() == ',' || reader.isWhitespace(reader.get())) {
+			else if(reader.get() == ',' || reader.isWhitespace(reader.get()) || reader.get() == '}') {
 				break;
 			}
 			else {

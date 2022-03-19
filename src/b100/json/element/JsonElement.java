@@ -12,7 +12,7 @@ public interface JsonElement extends Writable{
 		if(reader.get() == '"') return new JsonString(reader);
 		if(reader.get() == '{') return new JsonObject(reader);
 		if(reader.get() == '[') return new JsonArray(reader);
-		if(reader.get() >= '0' && reader.get() <= '9') return new JsonNumber(reader);
+		if((reader.get() >= '0' && reader.get() <= '9') || reader.get() == '-') return new JsonNumber(reader);
 		if(reader.isNext("true") || reader.isNext("false")) return new JsonBoolean(reader);
 		
 		throw new InvalidCharacterException(reader);

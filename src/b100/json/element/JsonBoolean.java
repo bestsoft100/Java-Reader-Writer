@@ -6,7 +6,7 @@ import b100.utils.StringWriter;
 
 public class JsonBoolean implements JsonElement{
 	
-	private boolean value;
+	public boolean value;
 	
 	public JsonBoolean(boolean value) {
 		this.value = value;
@@ -22,10 +22,6 @@ public class JsonBoolean implements JsonElement{
 			reader.skip(4);
 		}
 		else throw new InvalidCharacterException(reader);
-	}
-	
-	public boolean value() {
-		return value;
 	}
 	
 	public String toString() {

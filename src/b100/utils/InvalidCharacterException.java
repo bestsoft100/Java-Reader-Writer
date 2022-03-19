@@ -11,6 +11,11 @@ public class InvalidCharacterException extends RuntimeException{
 	}
 	
 	public String getMessage() {
+		return "Invalid character \""+getPrintChar(reader.get(), false)+"\" at index "+reader.position();
+	}
+	
+	@Deprecated
+	public String getMessage2() {
 		String msg = "\n\nInvalid character "+getPrintChar(reader.get(), false)+" at index "+reader.position();
 		
 		msg += "\n\n";
