@@ -35,7 +35,11 @@ public class JsonFile {
 	}
 	
 	public void load() {
-		rootObject = jsonParser.parse(file);
+		try{
+			rootObject = jsonParser.parse(file);
+		}catch (Exception e) {
+			throw new RuntimeException("Error loading file "+file.getAbsolutePath(), e);
+		}
 	}
 	
 	public JsonFile setRootObject(JsonObject object) {

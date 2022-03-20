@@ -17,7 +17,7 @@ public class ParserCollection<E>{
 				try{
 					return parser.parse(object);
 				}catch (Exception e) {
-					throw new RuntimeException("Error parsing Object: "+object+": "+e.getClass().getName()+": "+e.getMessage(), e);
+					throw new RuntimeException("Error parsing Object: "+object.getClass().getName()+" "+object, e);
 				}
 			}
 		}
