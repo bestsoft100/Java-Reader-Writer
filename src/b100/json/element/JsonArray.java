@@ -9,6 +9,7 @@ import b100.utils.InvalidCharacterException;
 import b100.utils.StringReader;
 import b100.utils.StringWriter;
 import b100.utils.Utils;
+import b100.utils.interfaces.Condition;
 
 public class JsonArray implements JsonElement, Iterable<JsonElement>{
 	
@@ -55,7 +56,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 		elements = Utils.toArray(JsonElement.class, elementsList);
 	}
 	
-	public JsonElement query(Condition condition) {
+	public JsonElement query(Condition<JsonElement> condition) {
 		for(JsonElement e : elements) {
 			if(condition.isTrue(e))return e;
 		}
@@ -67,6 +68,11 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 	}
 
 	public void write(StringWriter writer) {
+		if(elements.length == 0) {
+			writer.write("[]");
+			return;
+		}
+		
 		if(isCompact()) {
 			writer.write("[ ");
 		}else {
@@ -89,7 +95,7 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 		if(isCompact()) {
 			writer.write(" ]");
 		}else {
-			writer.writeln("]");
+			writer.write("]");
 		}
 		
 	}
@@ -125,10 +131,4 @@ public class JsonArray implements JsonElement, Iterable<JsonElement>{
 		return compact;
 	}
 	
-	public static interface Condition{
-		
-		public boolean isTrue(JsonElement e);
-		
-	}
-
 }
