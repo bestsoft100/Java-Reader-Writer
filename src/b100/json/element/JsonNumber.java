@@ -113,6 +113,7 @@ public class JsonNumber implements JsonElement{
 	
 	private void readDecimal(StringReader reader, StringWriter numberString) {
 		reader.expectAndSkip('.');
+		numberString.write('.');
 		while(true) {
 			if(reader.get() >= '0' && reader.get() <= '9') {
 				numberString.write(reader.get());
