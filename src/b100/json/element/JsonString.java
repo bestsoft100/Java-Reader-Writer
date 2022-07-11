@@ -26,6 +26,8 @@ public class JsonString implements JsonElement{
 				char next = reader.get();
 				if(next == 'n' || next == 'N') {
 					value += "\n";
+				} else if(next == '\\'){
+					value += "\\";
 				}else {
 					throw new InvalidCharacterException(reader);
 				}
@@ -53,8 +55,12 @@ public class JsonString implements JsonElement{
 			if(c == '\n') {
 				writer.write("\\n");
 			}
+			
 			else if(c == '\t') {
 				writer.write("\\t");
+			}
+			else if(c == '\\') {
+				writer.write("\\\\");
 			}
 			else {
 				writer.write(c);
