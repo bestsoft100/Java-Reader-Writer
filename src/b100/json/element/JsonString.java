@@ -13,9 +13,9 @@ public class JsonString implements JsonElement{
 	}
 	
 	public JsonString(StringReader reader) {
-		reader.expectAndSkip('"');
+		StringBuilder builder = new StringBuilder();
 		
-		value = "";
+		reader.expectAndSkip('"');
 		
 		while(true) {
 			if(reader.get() == '"') {
@@ -25,17 +25,19 @@ public class JsonString implements JsonElement{
 				reader.next();
 				char next = reader.get();
 				if(next == 'n' || next == 'N') {
-					value += "\n";
+					builder.append('\n');
 				} else if(next == '\\'){
-					value += "\\";
+					builder.append('\\');
 				}else {
 					throw new InvalidCharacterException(reader);
 				}
 				reader.next();
 			}else {
-				value += reader.getAndSkip();
+				builder.append(reader.getAndSkip());
 			}
 		}
+		
+		this.value = builder.toString();
 	}
 	
 	public boolean equals(JsonString string2) {
