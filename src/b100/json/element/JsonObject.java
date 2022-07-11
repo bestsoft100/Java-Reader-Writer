@@ -322,8 +322,9 @@ public class JsonObject implements JsonElement, Iterable<JsonEntry>{
 		return entries.iterator();
 	}
 
-	public void setCompact(boolean b) {
-		compact = true;
+	public JsonObject setCompact(boolean b) {
+		compact = b;
+		return this;
 	}
 	
 	public boolean isCompact() {
